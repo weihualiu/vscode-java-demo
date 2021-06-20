@@ -28,12 +28,7 @@ public class App {
 
             }
         }
-        Set<Entry<String, Integer>> entrySet = resultMap.entrySet();
-        Iterator<Entry<String, Integer>> iterator = entrySet.iterator();
-        while (iterator.hasNext()) {
-            Entry<String, Integer> entry = iterator.next();
-            System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
-        }
+        loopMapPrint(resultMap);
         System.out.println("all nodes is active!");
     }
 
@@ -48,12 +43,7 @@ public class App {
                     } catch (Exception e) {
 
                     }
-                    Set<Entry<String, Integer>> entrySet = resultMap.entrySet();
-                    Iterator<Entry<String, Integer>> iterator = entrySet.iterator();
-                    while (iterator.hasNext()) {
-                        Entry<String, Integer> entry = iterator.next();
-                        System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
-                    }
+                    loopMapPrint(resultMap);
                     if (resultMap.size() == 32) {
                         break;
                     }
@@ -62,4 +52,12 @@ public class App {
         }).start();
     }
 
+    private static void loopMapPrint(Map<String, Integer> map) {
+        Set<Entry<String, Integer>> entrySet = resultMap.entrySet();
+        Iterator<Entry<String, Integer>> iterator = entrySet.iterator();
+        while (iterator.hasNext()) {
+            Entry<String, Integer> entry = iterator.next();
+            System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
+        }
+    }
 }
