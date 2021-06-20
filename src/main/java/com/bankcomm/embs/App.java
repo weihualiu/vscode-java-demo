@@ -4,37 +4,62 @@
 package com.bankcomm.embs;
 
 import java.lang.Thread;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 public class App {
-    public String getGreeting() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int count = 0;
-                while(true) {
-                    System.out.println("here!!! " + count);
-                    count++;
-                    try{
-                        Thread.sleep(1000);
-                    }catch(Exception e) {
 
-                    }                 
-                }
-                
-            }
-        }).start();
-        return "Hello world.";
-    }
+    // 记录所有节点访问次数
+    private static final Map<String, Integer> resultMap = new HashMap<String, Integer>();
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-        while(true) {
-            try{
-                Thread.sleep(1000);
-            }catch(Exception e){
+        showData();
+        // 检测是否接收到所有节点
+        while (true) {
+            try {
+                Thread.sleep(100);
+                if (resultMap.size() == 32) {
+                    break;
+                }
+            } catch (Exception e) {
 
             }
-            
         }
+        Set<Entry<String, Integer>> entrySet = resultMap.entrySet();
+        Iterator<Entry<String, Integer>> iterator = entrySet.iterator();
+        while (iterator.hasNext()) {
+            Entry<String, Integer> entry = iterator.next();
+            System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
+        }
+        System.out.println("all nodes is active!");
     }
+
+    private static void showData() {
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+
+                    }
+                    Set<Entry<String, Integer>> entrySet = resultMap.entrySet();
+                    Iterator<Entry<String, Integer>> iterator = entrySet.iterator();
+                    while (iterator.hasNext()) {
+                        Entry<String, Integer> entry = iterator.next();
+                        System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
+                    }
+                    if (resultMap.size() == 32) {
+                        break;
+                    }
+                }
+            }
+        }).start();
+    }
+
 }
